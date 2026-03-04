@@ -1,4 +1,5 @@
-import { LayoutDashboard, TrendingUp, Route, Users, BookOpen, Settings, LogOut, Leaf } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Route, Users, BookOpen, Settings, LogOut } from "lucide-react";
+import gimbleLogo from "@/assets/gimble-logo.png";
 import { NavLink } from "@/components/NavLink";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth-context";
