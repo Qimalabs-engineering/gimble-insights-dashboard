@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Progress } from "@/components/ui/progress";
 import { journeyTemplates, members } from "@/lib/mock-data";
-import { Plus, MoreHorizontal, Search, CheckSquare } from "lucide-react";
+import { Plus, MoreHorizontal, Search, CheckSquare, Building2 } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -20,13 +20,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 
 const Journeys = () => {
   const [open, setOpen] = useState(false);
   const [selectedJourney, setSelectedJourney] = useState("");
   const [selectedMembers, setSelectedMembers] = useState<Set<string>>(new Set());
+  const [selectedDepartments, setSelectedDepartments] = useState<Set<string>>(new Set());
   const [searchQuery, setSearchQuery] = useState("");
+  const [assignMode, setAssignMode] = useState<string>("members");
   const { toast } = useToast();
 
   const activeMembers = members.filter((m) => m.status === "active");
