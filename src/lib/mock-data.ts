@@ -8,8 +8,8 @@ export const mockUser = {
 };
 
 export const overviewStats = [
-  { label: "Total Members", value: "2,847", change: "+12%", trend: "up" as const },
-  { label: "Active Users (7d)", value: "1,923", change: "+8%", trend: "up" as const },
+  { label: "Total Members", value: "1,024", change: "+12%", trend: "up" as const },
+  { label: "Active Users (7d)", value: "847", change: "+8%", trend: "up" as const },
   { label: "Journeys Completed", value: "4,512", change: "+23%", trend: "up" as const },
   { label: "Avg. Wellbeing Score", value: "7.2/10", change: "+0.4", trend: "up" as const },
 ];
@@ -32,12 +32,12 @@ export const engagementData = [
 ];
 
 export const departmentWellbeing = [
-  { department: "Engineering", wellbeing: 7.5, stress: 4.2, engagement: 82 },
-  { department: "Marketing", wellbeing: 7.8, stress: 3.8, engagement: 88 },
-  { department: "Sales", wellbeing: 6.9, stress: 5.1, engagement: 75 },
-  { department: "HR", wellbeing: 8.1, stress: 3.2, engagement: 91 },
-  { department: "Operations", wellbeing: 7.0, stress: 4.8, engagement: 78 },
-  { department: "Finance", wellbeing: 7.3, stress: 4.5, engagement: 80 },
+  { department: "Engineering", wellbeing: 7.5, stress: 4.2, engagement: 82, burnout: 18, satisfaction: 7.8 },
+  { department: "Marketing", wellbeing: 7.8, stress: 3.8, engagement: 88, burnout: 12, satisfaction: 8.1 },
+  { department: "Sales", wellbeing: 6.9, stress: 5.1, engagement: 75, burnout: 25, satisfaction: 6.7 },
+  { department: "HR", wellbeing: 8.1, stress: 3.2, engagement: 91, burnout: 9, satisfaction: 8.4 },
+  { department: "Operations", wellbeing: 7.0, stress: 4.8, engagement: 78, burnout: 22, satisfaction: 7.1 },
+  { department: "Finance", wellbeing: 7.3, stress: 4.5, engagement: 80, burnout: 20, satisfaction: 7.5 },
 ];
 
 export const journeyTemplates = [
@@ -49,36 +49,73 @@ export const journeyTemplates = [
   { id: "j6", title: "Overcoming Depression", category: "Depression", status: "published", assignedCount: 234, completionRate: 48 },
 ];
 
-export const members = [
-  { id: "m1", name: "Kwame Mensah", email: "kwame@company.com", department: "Engineering", joinedDate: "2024-06-15", status: "active", journeysCompleted: 3 },
-  { id: "m2", name: "Amina Diallo", email: "amina@company.com", department: "Marketing", joinedDate: "2024-07-02", status: "active", journeysCompleted: 5 },
-  { id: "m3", name: "Chidi Okafor", email: "chidi@company.com", department: "Sales", joinedDate: "2024-08-10", status: "active", journeysCompleted: 2 },
-  { id: "m4", name: "Fatima Hassan", email: "fatima@company.com", department: "HR", joinedDate: "2024-05-20", status: "active", journeysCompleted: 7 },
-  { id: "m5", name: "Tendai Moyo", email: "tendai@company.com", department: "Operations", joinedDate: "2024-09-01", status: "inactive", journeysCompleted: 1 },
-  { id: "m6", name: "Ngozi Eze", email: "ngozi@company.com", department: "Finance", joinedDate: "2024-07-18", status: "active", journeysCompleted: 4 },
-  { id: "m7", name: "Oluwaseun Adeyemi", email: "seun@company.com", department: "Engineering", joinedDate: "2024-10-05", status: "active", journeysCompleted: 2 },
-  { id: "m8", name: "Zainab Bello", email: "zainab@company.com", department: "Marketing", joinedDate: "2024-11-12", status: "active", journeysCompleted: 1 },
+// Generate 1024 mock members
+const firstNames = [
+  "Kwame", "Amina", "Chidi", "Fatima", "Tendai", "Ngozi", "Oluwaseun", "Zainab",
+  "Adaeze", "Emeka", "Halima", "Kofi", "Aisha", "Tunde", "Chiamaka", "Yusuf",
+  "Nkechi", "Ibrahim", "Folake", "Abdullahi", "Chioma", "Musa", "Blessing", "Omar",
+  "Nneka", "Sadiq", "Funmilayo", "Idris", "Ogechi", "Hassan", "Yemi", "Binta",
+  "Obinna", "Mariam", "Adewale", "Hafsat", "Ikenna", "Khadija", "Chukwuemeka", "Safiya",
+  "Nnamdi", "Rukayat", "Uzoma", "Jummai", "Ebuka", "Hauwa", "Chinonso", "Asma",
+  "Ifeanyi", "Hadiza", "Tochi", "Bilkisu", "Kelechi", "Zara", "Jide", "Lubabatu",
+  "Segun", "Nana", "Dapo", "Ama", "Femi", "Akua", "Bode", "Abena"
 ];
+const lastNames = [
+  "Mensah", "Diallo", "Okafor", "Hassan", "Moyo", "Eze", "Adeyemi", "Bello",
+  "Okonkwo", "Adekunle", "Traore", "Nwachukwu", "Abdulrahman", "Achebe", "Kamara", "Ojo",
+  "Osei", "Conteh", "Nwosu", "Mohammed", "Okoro", "Suleiman", "Abubakar", "Obi",
+  "Sesay", "Olawale", "Jalloh", "Uzoma", "Bangura", "Bakare", "Koroma", "Ogundimu"
+];
+const departments = ["Engineering", "Marketing", "Sales", "HR", "Operations", "Finance", "Product", "Design", "Support", "Legal"];
+const statuses = ["active", "active", "active", "active", "active", "active", "active", "inactive"] as const;
+
+function seededRandom(seed: number) {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
+}
+
+export const members = Array.from({ length: 1024 }, (_, i) => {
+  const fn = firstNames[Math.floor(seededRandom(i + 1) * firstNames.length)];
+  const ln = lastNames[Math.floor(seededRandom(i + 100) * lastNames.length)];
+  const dept = departments[Math.floor(seededRandom(i + 200) * departments.length)];
+  const status = statuses[Math.floor(seededRandom(i + 300) * statuses.length)];
+  const month = String(Math.floor(seededRandom(i + 400) * 12) + 1).padStart(2, "0");
+  const day = String(Math.floor(seededRandom(i + 500) * 28) + 1).padStart(2, "0");
+  return {
+    id: `m${i + 1}`,
+    name: `${fn} ${ln}`,
+    email: `${fn.toLowerCase()}.${ln.toLowerCase()}${i > 0 ? i : ""}@company.com`,
+    department: dept,
+    joinedDate: `2024-${month}-${day}`,
+    status: status as "active" | "inactive",
+    journeysCompleted: Math.floor(seededRandom(i + 600) * 10),
+  };
+});
 
 export const recentActivity = [
-  { id: 1, action: "Journey completed", user: "Amina Diallo", detail: "Managing Stress", time: "2 hours ago" },
-  { id: 2, action: "Assessment taken", user: "Kwame Mensah", detail: "PHQ-9 Screener", time: "3 hours ago" },
-  { id: 3, action: "New member joined", user: "Yemi Alade", detail: "Engineering", time: "5 hours ago" },
+  { id: 1, action: "Journey completed", user: "Anonymous User", detail: "Managing Stress", time: "2 hours ago" },
+  { id: 2, action: "Assessment taken", user: "Anonymous User", detail: "PHQ-9 Screener", time: "3 hours ago" },
+  { id: 3, action: "New member joined", user: "Anonymous User", detail: "Engineering", time: "5 hours ago" },
   { id: 4, action: "Journey assigned", user: "Admin", detail: "Better Sleep Habits → Sales Team", time: "1 day ago" },
-  { id: 5, action: "Homework submitted", user: "Fatima Hassan", detail: "Weekly Reflection", time: "1 day ago" },
+  { id: 5, action: "Homework submitted", user: "Anonymous User", detail: "Weekly Reflection", time: "1 day ago" },
 ];
 
 export const weeklyActiveUsersData = [
-  { day: "Mon", users: 1420 },
-  { day: "Tue", users: 1580 },
-  { day: "Wed", users: 1690 },
-  { day: "Thu", users: 1550 },
-  { day: "Fri", users: 1380 },
-  { day: "Sat", users: 820 },
-  { day: "Sun", users: 690 },
+  { day: "Mon", users: 620 },
+  { day: "Tue", users: 710 },
+  { day: "Wed", users: 780 },
+  { day: "Thu", users: 690 },
+  { day: "Fri", users: 640 },
+  { day: "Sat", users: 320 },
+  { day: "Sun", users: 280 },
 ];
 
 export const assessmentResults = [
   { name: "PHQ-9 (Depression)", minimal: 45, mild: 30, moderate: 18, severe: 7 },
   { name: "GAD-7 (Anxiety)", minimal: 40, mild: 32, moderate: 20, severe: 8 },
+];
+
+export const emergencyContacts = [
+  { id: "ec1", name: "Dr. Amara Obi", role: "Primary Counselor", phone: "+234 800 123 4567", email: "support@gimble.io" },
+  { id: "ec2", name: "Crisis Helpline", role: "24/7 Support", phone: "+234 800 999 0000", email: "crisis@gimble.io" },
 ];
