@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Leaf, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
+import gimbleLogo from "@/assets/gimble-logo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("admin@gimble.io");
@@ -36,9 +37,7 @@ const Login = () => {
         <Card className="shadow-xl border-0">
           <CardHeader className="text-center pb-2 pt-8">
             <div className="flex items-center justify-center gap-2 mb-4">
-              <div className="h-10 w-10 rounded-lg bg-primary flex items-center justify-center">
-                <Leaf className="h-6 w-6 text-primary-foreground" />
-              </div>
+              <img src={gimbleLogo} alt="Gimble" className="h-10 w-10 rounded-lg object-contain" />
               <h1 className="text-2xl font-bold text-foreground" style={{ fontFamily: "'DM Serif Display', serif" }}>
                 Gimble
               </h1>
