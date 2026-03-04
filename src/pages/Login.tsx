@@ -36,8 +36,10 @@ const Login = () => {
       >
         <Card className="shadow-xl border-0">
           <CardHeader className="text-center pb-2 pt-8">
-            <div className="flex items-center justify-center gap-0 mb-4">
-              <img src={gimbleLogo} alt="Gimble" className="h-14 w-14 object-contain -mr-1" />
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <div className="h-10 w-10 overflow-hidden rounded-lg">
+                <img src={gimbleLogo} alt="Gimble" className="h-[180%] w-[180%] object-cover object-center -mt-[40%] -ml-[40%]" />
+              </div>
               <h1 className="text-2xl font-bold text-foreground" style={{ fontFamily: "'DM Serif Display', serif" }}>
                 Gimble
               </h1>
