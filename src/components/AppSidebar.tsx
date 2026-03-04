@@ -43,9 +43,7 @@ export function AppSidebar() {
       <SidebarContent>
         <SidebarGroup>
           <div className={`flex items-center gap-2 px-3 py-4 ${collapsed ? "justify-center" : ""}`}>
-            <div className="h-8 w-8 rounded-lg bg-sidebar-primary flex items-center justify-center shrink-0">
-              <Leaf className="h-5 w-5 text-sidebar-primary-foreground" />
-            </div>
+            <img src={gimbleLogo} alt="Gimble" className="h-8 w-8 rounded-lg shrink-0 object-contain" />
             {!collapsed && (
               <span className="text-lg font-bold text-sidebar-foreground" style={{ fontFamily: "'DM Serif Display', serif" }}>
                 Gimble
