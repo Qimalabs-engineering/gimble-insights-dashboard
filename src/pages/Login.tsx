@@ -6,7 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { Leaf, Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
+import gimbleLogo from "@/assets/gimble-logo.png";
 
 const Login = () => {
   const [email, setEmail] = useState("admin@gimble.io");
