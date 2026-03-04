@@ -33,6 +33,13 @@ const Journeys = () => {
   const { toast } = useToast();
 
   const activeMembers = members.filter((m) => m.status === "active");
+  const departments = useMemo(() => [...new Set(activeMembers.map((m) => m.department))].sort(), [activeMembers]);
+  const departmentCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    activeMembers.forEach((m) => { counts[m.department] = (counts[m.department] || 0) + 1; });
+    return counts;
+  }, [activeMembers]);
+
   const filteredMembers = activeMembers.filter(
     (m) =>
       m.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -40,6 +47,7 @@ const Journeys = () => {
   );
 
   const allSelected = activeMembers.length > 0 && selectedMembers.size === activeMembers.length;
+  const allDepsSelected = departments.length > 0 && selectedDepartments.size === departments.length;
 
   const toggleAll = () => {
     if (allSelected) {
@@ -58,19 +66,49 @@ const Journeys = () => {
     });
   };
 
+  const toggleDepartment = (dept: string) => {
+    setSelectedDepartments((prev) => {
+      const next = new Set(prev);
+      if (next.has(dept)) next.delete(dept);
+      else next.add(dept);
+      return next;
+    });
+  };
+
+  const toggleAllDepartments = () => {
+    if (allDepsSelected) {
+      setSelectedDepartments(new Set());
+    } else {
+      setSelectedDepartments(new Set(departments));
+    }
+  };
+
+  const getAssigneeCount = () => {
+    if (assignMode === "departments") {
+      return activeMembers.filter((m) => selectedDepartments.has(m.department)).length;
+    }
+    return selectedMembers.size;
+  };
+
   const handleAssign = () => {
-    if (!selectedJourney || selectedMembers.size === 0) {
-      toast({ title: "Missing selection", description: "Please select a journey and at least one member.", variant: "destructive" });
+    const count = getAssigneeCount();
+    if (!selectedJourney || count === 0) {
+      toast({ title: "Missing selection", description: "Please select a journey and at least one member or department.", variant: "destructive" });
       return;
     }
     const journey = journeyTemplates.find((j) => j.id === selectedJourney);
+    const target = assignMode === "departments"
+      ? `${selectedDepartments.size} department${selectedDepartments.size > 1 ? "s" : ""} (${count} members)`
+      : `${count} member${count > 1 ? "s" : ""}`;
     toast({
       title: "Journey Assigned",
-      description: `"${journey?.title}" assigned to ${selectedMembers.size} member${selectedMembers.size > 1 ? "s" : ""}.`,
+      description: `"${journey?.title}" assigned to ${target}.`,
     });
     setSelectedJourney("");
     setSelectedMembers(new Set());
+    setSelectedDepartments(new Set());
     setSearchQuery("");
+    setAssignMode("members");
     setOpen(false);
   };
 
@@ -79,7 +117,9 @@ const Journeys = () => {
     if (!isOpen) {
       setSelectedJourney("");
       setSelectedMembers(new Set());
+      setSelectedDepartments(new Set());
       setSearchQuery("");
+      setAssignMode("members");
     }
   };
 
