@@ -14,7 +14,7 @@ const Journeys = () => (
         <p className="text-muted-foreground mt-1">Manage and assign guided wellness pathways.</p>
       </div>
       <Button className="gap-2">
-        <Plus className="h-4 w-4" /> New Journey
+        <Plus className="h-4 w-4" /> Assign Journey
       </Button>
     </div>
 

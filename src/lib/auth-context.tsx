@@ -11,17 +11,23 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return sessionStorage.getItem("gimble_auth") === "true";
+  });
 
   const login = (email: string, password: string) => {
     if (email === "admin@gimble.io" && password === "gimble2024") {
       setIsAuthenticated(true);
+      sessionStorage.setItem("gimble_auth", "true");
       return true;
     }
     return false;
   };
 
-  const logout = () => setIsAuthenticated(false);
+  const logout = () => {
+    setIsAuthenticated(false);
+    sessionStorage.removeItem("gimble_auth");
+  };
 
   return (
     <AuthContext.Provider value={{ isAuthenticated, user: isAuthenticated ? mockUser : null, login, logout }}>
