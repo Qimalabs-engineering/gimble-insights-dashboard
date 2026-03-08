@@ -6,12 +6,16 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "@/lib/auth-context";
 import Login from "./pages/Login";
 import { DashboardLayout } from "./components/DashboardLayout";
+import { AdminLayout } from "./components/AdminLayout";
 import Dashboard from "./pages/Dashboard";
 import Insights from "./pages/Insights";
 import Journeys from "./pages/Journeys";
 import Members from "./pages/Members";
 import Library from "./pages/Library";
 import DashboardSettings from "./pages/DashboardSettings";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminTemplates from "./pages/AdminTemplates";
+import AdminOrganizations from "./pages/AdminOrganizations";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,6 +35,12 @@ const App = () => (
               <Route path="journeys" element={<Journeys />} />
               <Route path="members" element={<Members />} />
               <Route path="library" element={<Library />} />
+              <Route path="settings" element={<DashboardSettings />} />
+            </Route>
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="templates" element={<AdminTemplates />} />
+              <Route path="organizations" element={<AdminOrganizations />} />
               <Route path="settings" element={<DashboardSettings />} />
             </Route>
             <Route path="*" element={<NotFound />} />

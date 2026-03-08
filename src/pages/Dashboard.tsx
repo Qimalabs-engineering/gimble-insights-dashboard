@@ -11,7 +11,7 @@ import {
   PieChart, Pie, Cell, BarChart, Bar,
 } from "recharts";
 
-const statIcons = [Activity, Flame, Route, Heart];
+const statIcons = [Activity, Activity, Flame, Heart];
 const COLORS = [
   "hsl(var(--chart-1))",
   "hsl(var(--chart-2))",

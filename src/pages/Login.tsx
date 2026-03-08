@@ -20,9 +20,16 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (login(email, password)) {
-      navigate("/dashboard");
+      // Route based on role
+      const stored = sessionStorage.getItem("gimble_user");
+      const user = stored ? JSON.parse(stored) : null;
+      if (user?.role === "gimble_admin") {
+        navigate("/admin");
+      } else {
+        navigate("/dashboard");
+      }
     } else {
-      setError("Invalid credentials. Use admin@gimble.io / gimble2024");
+      setError("Invalid credentials.");
     }
   };
 
@@ -80,9 +87,10 @@ const Login = () => {
               <Button type="submit" className="w-full">
                 Sign In
               </Button>
-              <p className="text-xs text-center text-muted-foreground mt-4">
-                Demo credentials: admin@gimble.io / gimble2024
-              </p>
+              <div className="text-xs text-center text-muted-foreground mt-4 space-y-1">
+                <p><strong>Facilitator:</strong> admin@gimble.io / gimble2024</p>
+                <p><strong>Gimble Admin:</strong> super@gimble.io / gimble2024</p>
+              </div>
             </form>
           </CardContent>
         </Card>
