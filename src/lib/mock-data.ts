@@ -8,9 +8,9 @@ export const mockUser = {
 };
 
 export const overviewStats = [
+  { label: "Active Users (7d)", value: "847", change: "+8%", trend: "up" as const },
   { label: "Engagement Rate", value: "82%", change: "+5%", trend: "up" as const },
   { label: "Burnout Risk", value: "18%", change: "-3%", trend: "up" as const },
-  { label: "Journeys Completed", value: "4,512", change: "+23%", trend: "up" as const },
   { label: "Avg. Wellbeing Score", value: "7.2/10", change: "+0.4", trend: "up" as const },
 ];
 
