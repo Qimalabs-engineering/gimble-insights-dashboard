@@ -8,11 +8,23 @@ export const mockUser = {
 };
 
 export const overviewStats = [
-  { label: "Total Members", value: "1,024", change: "+12%", trend: "up" as const },
-  { label: "Active Users (7d)", value: "847", change: "+8%", trend: "up" as const },
+  { label: "Engagement Rate", value: "82%", change: "+5%", trend: "up" as const },
+  { label: "Burnout Risk", value: "18%", change: "-3%", trend: "up" as const },
   { label: "Journeys Completed", value: "4,512", change: "+23%", trend: "up" as const },
   { label: "Avg. Wellbeing Score", value: "7.2/10", change: "+0.4", trend: "up" as const },
 ];
+
+export const burnoutForecast = {
+  employeesAtRisk: 18,
+  confidence: 82,
+  timeframe: "30 days",
+  riskByDepartment: [
+    { department: "Sales", count: 6, risk: "high" },
+    { department: "Engineering", count: 5, risk: "medium" },
+    { department: "Operations", count: 4, risk: "medium" },
+    { department: "Finance", count: 3, risk: "low" },
+  ],
+};
 
 export const moodTrendData = [
   { month: "Aug", score: 6.2, stress: 5.8, sleep: 6.0 },
